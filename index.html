@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Inventory Management App</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Inventory Management App</h1>
+    <ul id="inventory"></ul>
+
+    <script>
+      const socket = io("http://localhost:3000");
+      const inventoryList = document.querySelector("#inventory");
+
+      socket.on("inventoryUpdated", (inventory) => {
+        // Clear inventory list
+        inventoryList.innerHTML = "";
+
+        // Add updated inventory items to list
+        inventory.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = `${item.name} - Quantity: ${item.quantity}`;
+          inventoryList.appendChild(li);
+        });
+      });
+    </script>
+  </body>
+</html>
